@@ -1,0 +1,9 @@
+recording_id,time_s,hr,pulse,resp,spo2
+synthetic_fixture,0,72,71,17,98
+synthetic_fixture,0,72,71,17,98
+synthetic_fixture,0,80,71,17,98
+synthetic_fixture,0,60,,17,98
+synthetic_fixture,1,NaN,not_numeric,Infinity,104
+synthetic_fixture,2,75,73,-2,
+synthetic_fixture,-1,70,70,16,99
+synthetic_fixture,bad_time,70,70,16,99

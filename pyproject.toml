@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vitalflow"
+version = "0.1.0"
+description = "Reproducible local Spark pipeline for historical BIDMC monitor data"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = ["pyspark==4.2.1", "py4j==0.10.9.9"]
+
+[project.optional-dependencies]
+dev = ["pytest==8.4.2", "ruff==0.15.10"]
+# PyArrow reads one recording from Parquet without launching Spark.
+dashboard = ["pandas==2.3.3", "streamlit==1.51.0", "plotly==6.4.0", "pyarrow==21.0.0"]
+
+[project.scripts]
+vitalflow = "vitalflow.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
