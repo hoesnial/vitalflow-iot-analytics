@@ -1,10 +1,64 @@
 # VitalFlow
 
-**IoT Patient Monitoring & Big Data Analytics · Iteration 02**
+## Panduan cepat menjalankan (Bahasa Indonesia)
+
+Gunakan Python 3.12 dan Java 25. Setelah mengunduh repositori, buka Terminal di folder VitalFlow (`cd` ke folder hasil clone). Contoh untuk pengguna baru:
+
+```sh
+git clone https://github.com/hoesnial/vitalflow-iot-analytics.git
+cd vitalflow-iot-analytics
+python3.12 --version
+java -version
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e '.[dashboard,dev,submission]'
+```
+
+Jika Anda sudah memiliki folder proyek, cukup buka folder itu di Terminal, aktifkan `.venv` (buat dahulu jika belum ada), lalu jalankan perintah instalasi. Pada macOS dengan beberapa JDK, pilih Java 25 melalui `export JAVA_HOME="$(/usr/libexec/java_home -v 25)"` sebelum menjalankan pipeline. Dashboard membaca hasil pipeline dari `outputs/`.
+
+Periksa apakah bukti Complete sudah ada:
+
+```sh
+python scripts/demo_readiness.py
+```
+
+Jika pemeriksaan berhasil, langsung jalankan dashboard. Jika belum, unduh dan proses dataset seperti di bawah.
+
+Perintah `download` mengambil dataset resmi PhysioNet, memeriksa SHA-256, dan menyimpan 53 pasang berkas Numerics.csv dan Fix.txt di `data/raw/bidmc/1.0.0/`. Perintah `run` membaca cache lokal dan membuat bukti untuk dashboard di `outputs/53-recordings/`:
+
+```sh
+vitalflow download --mode complete   # perlu internet saat unduhan pertama
+vitalflow run --mode complete        # memakai cache lokal; memerlukan Java/Spark
+python scripts/demo_readiness.py
+```
+
+Jalankan dashboard dari folder proyek dengan `.venv` aktif:
+
+```sh
+python -m streamlit run dashboard/app.py --server.headless true --server.port 8512
+```
+
+Buka [http://127.0.0.1:8512](http://127.0.0.1:8512). Untuk menghentikan server, tekan `Ctrl+C` di Terminal. Jika port 8512 sudah dipakai oleh VitalFlow, cukup buka tautan tersebut.
+
+Untuk mencoba lebih cepat, gunakan `--mode fast` pada perintah `download` dan `run` (3 rekaman), kemudian pilih **Fast** di sidebar dashboard. Mode **Default** memakai 10 rekaman; **Complete** memakai 53 rekaman dan menjadi sumber utama demo. Setiap mode memiliki hasil sendiri di `outputs/03-recordings/`, `outputs/10-recordings/`, atau `outputs/53-recordings/`. Dataset tidak diunggah lewat halaman dashboard. Setelah unduhan pertama, `vitalflow download --mode complete --offline` dapat memeriksa cache tanpa internet. Jika menerima ZIP folder `outputs` dari rekan, ekstrak sehingga foldernya berada langsung di akar proyek (`outputs/53-recordings/run.json`); jalankan `python scripts/demo_readiness.py` sebelum membuka dashboard. ZIP `outputs` tidak berisi cache data mentah untuk menjalankan ulang pipeline.
+
+**IoT Patient Monitoring & Big Data Analytics · Iteration 03**
 
 VitalFlow answers a monitoring question: **how do the levels and completeness of HR, pulse, respiration, and SpO₂ vary over a recording?** It builds a reproducible local Spark pipeline for the Itenas IFB-451 midterm. It integrates official BIDMC numerics with recording metadata, audits quality, writes and reads back Parquet, and produces evidence for all five Vs.
 
 **Historical hospital monitor data · Simulated batch arrivals · Educational analysis.** This prototype has no connection to live devices and makes no clinical predictions or recommendations.
+
+## ETS submission package
+
+Use the [final readiness report](docs/FINAL_READINESS_REPORT.md) and [rubric audit](docs/final-rubric-audit.md) to verify the release. For the five-person video, start with the [narration](docs/presentation/video-script.md) and [storyboard](docs/presentation/storyboard.md), then follow the [recording guide](docs/presentation/recording-guide.md), [speaker notes](docs/presentation/speaker-notes.md), [caption transcript](docs/presentation/subtitle-transcript.md), and [video checklist](docs/presentation/video-checklist.md).
+
+```sh
+.venv/bin/python -m pip install -e '.[dashboard,dev,submission]'
+.venv/bin/python scripts/demo_readiness.py       # Validate persisted Complete evidence
+.venv/bin/python scripts/generate_submission.py  # Three-page A4 draft and architecture.svg
+```
+
+The draft is generated under `docs/submission/generated/`. Fill the [group details template](docs/submission/submission-data.example.json) with the real group number, five names and NIMs, and the uploaded video URL. Follow the [submission template and verification instructions](docs/submission/submission-template.md) to generate and check five individually named PDFs. Only the students can verify access to their actual video and submit their own PDFs in Itenas eLearning.
 
 ## Preview
 
@@ -34,7 +88,7 @@ python -m streamlit run dashboard/app.py --server.headless true --server.port 85
 
 Open [http://127.0.0.1:8512](http://127.0.0.1:8512). The default selection is Complete. Choose **Fast**, **Default**, or **Complete** in the sidebar to load the corresponding verified snapshot. If that snapshot is missing, the dashboard provides the commands to generate it. For example, after downloading the full dataset once, `vitalflow run --mode complete` rebuilds the evidence without internet access.
 
-The dashboard uses local evidence and does not start Spark. Streamlit, Plotly, and pandas present the saved outputs. PyArrow reads the selected recording from Parquet; the other pages use precomputed evidence. The simulated replay animates archived arrival intervals and measurements. It does not rerun ingestion or modify benchmark files. Use the [five-minute demonstration guide](docs/dashboard-demo.md) and the [dashboard verification record](docs/dashboard-verification.md).
+The dashboard uses local evidence and does not start Spark. Streamlit, Plotly, and pandas present the saved outputs. PyArrow reads the selected recording from Parquet; the other pages use precomputed evidence. The simulated replay animates archived arrival intervals and measurements. It does not rerun ingestion or modify benchmark files. Use the [recording guide](docs/presentation/recording-guide.md) and the [dashboard verification record](docs/dashboard-verification.md).
 
 Run both dashboard and pipeline checks offline with:
 
@@ -101,4 +155,4 @@ The complete selection is the best evidence for Veracity: the original data cont
 - For a Java gateway error, check `java -version` and `JAVA_HOME` before restarting. Spark may warn that native Hadoop libraries are unavailable on macOS; this run uses bundled Java libraries and local files. No Hadoop server, Kafka, cloud service, Docker, or API key is required.
 - To keep notes or copy a run for submission, store them outside `outputs/NN-recordings/`. That directory is reserved for generated artifacts and is replaced on a successful rerun. Timing, run timestamps, Spark plan IDs, and Parquet part filenames can change; inputs and analytical contents should be stable.
 
-See the [architecture](docs/architecture.md), [dataset and citations](docs/dataset.md), [methodology](docs/methodology.md), [evidence and team roles](docs/evidence-matrix.md), [engineering decisions](docs/decisions.md), and [verification record](docs/verification.md). The final five-minute video and three-page submission PDF are reserved for Iteration 03.
+See the [architecture](docs/architecture.md), [dataset and citations](docs/dataset.md), [methodology](docs/methodology.md), [evidence and team roles](docs/evidence-matrix.md), [engineering decisions](docs/decisions.md), and [Iteration 01 verification record](docs/verification.md).

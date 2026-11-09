@@ -1,4 +1,6 @@
-# Walkthrough dashboard · lima menit
+# Walkthrough dashboard · catatan Iterasi 02
+
+Untuk rekaman ETS, gunakan [storyboard final](presentation/storyboard.md) dengan pembagian waktu resmi dan [panduan rekam](presentation/recording-guide.md). Jadwal di bawah berasal dari walkthrough Iterasi 02.
 
 **Persiapan:** instal dependensi dan jalankan aplikasi sesuai README. Buka mode **Complete**, cek bahwa Overview menampilkan status pipeline terverifikasi, dan gunakan viewport 1440 × 900. Simpan mode **Fast** untuk memperlihatkan eksekusi pipeline bila diperlukan; kembali ke Complete sebelum membaca bukti. Angka dapat berubah setelah run baru. Bacakan angka yang ada di layar.
 

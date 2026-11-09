@@ -8,6 +8,8 @@ __pycache__/
 /data/raw/
 /outputs/
 /docs/reference/*.pdf
+/docs/submission/submission-data.json
+/docs/submission/generated/
 
 *.swp
 *.swo

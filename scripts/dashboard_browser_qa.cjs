@@ -149,6 +149,8 @@ async function check(browser, width, height, walkthrough) {
 
   await nav("Evidence & Methodology");
   await title("Evidence & Methodology").waitFor();
+  assert.equal(await page.getByRole("link", { name: "Halaman dataset resmi" }).getAttribute("href"),
+    "https://physionet.org/content/bidmc/1.0.0/");
   await page.getByText("Inspeksi dan unduh artefak", { exact: true }).click();
   const [run] = await Promise.all([
     page.waitForEvent("download"), page.getByRole("button", { name: "Unduh berkas" }).click(),
@@ -163,7 +165,7 @@ async function check(browser, width, height, walkthrough) {
   const browser = await chromium.launch({ channel: process.env.VITALFLOW_QA_CHANNEL || "chrome" });
   try {
     await check(browser, 1440, 900, true);
-    await check(browser, 1280, 720, false);
+    await check(browser, 1280, 720, true);
     await check(browser, 390, 844, false);
     console.log("All browser walkthrough checks passed.");
   } finally {

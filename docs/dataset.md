@@ -2,7 +2,7 @@
 
 **BIDMC PPG and Respiration Dataset v1.0.0.** Pimentel, M. A. F., Johnson, A., Charlton, P., & Clifton, D. (2018). PhysioNet. [Dataset and DOI 10.13026/C2208R](https://physionet.org/content/bidmc/1.0.0/). [Open Data Commons Attribution License v1.0](https://opendatacommons.org/licenses/by/1-0/). The dataset contains historical hospital recordings of approximately eight minutes each. PhysioNet documents 1 Hz numeric parameters and 125 Hz waveforms.
 
-Cite the [original publication by Pimentel et al.](https://doi.org/10.1109/TBME.2016.2613124) and the PhysioNet platform citation given on the [dataset page](https://physionet.org/content/bidmc/1.0.0/) in the submission.
+Cite the [original publication by Pimentel et al.](https://doi.org/10.1109/TBME.2016.2613124) and the platform citation requested by the [dataset page](https://physionet.org/content/bidmc/1.0.0/): Pollard et al. (2026), [PhysioNet as a global platform for biomedical research](https://doi.org/10.1038/s44360-026-00096-z), *Nature Health*. Put the full attribution in the video description.
 
 ## Source contract verified in the complete selection
 

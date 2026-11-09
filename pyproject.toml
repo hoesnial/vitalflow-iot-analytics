@@ -14,6 +14,7 @@ dependencies = ["pyspark==4.2.1", "py4j==0.10.9.9"]
 dev = ["pytest==8.4.2", "ruff==0.15.10"]
 # PyArrow reads one recording from Parquet without launching Spark.
 dashboard = ["pandas==2.3.3", "streamlit==1.51.0", "plotly==6.4.0", "pyarrow==21.0.0"]
+submission = ["reportlab==4.4.4", "pypdf==6.12.2"]
 
 [project.scripts]
 vitalflow = "vitalflow.cli:main"
